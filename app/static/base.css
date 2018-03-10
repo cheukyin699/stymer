@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-height: 24em;
+
+    font-size: 30px;
+    font-family: Helvetica sans-serif;
+}
+
+.timer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-self: center;
+}
+
+.time {
+    font-size: 2em;
+}
+
+.btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+}
+
+button {
+    flex-grow: 1;
+    border: none;
+    background: aliceblue;
+    padding: 1em;
+}

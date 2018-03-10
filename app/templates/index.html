@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stymer</title>
+
+  {% assets "base_css" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css" />
+  {% endassets %}
+
+  {% assets "base_js" %}
+  <script type="text/JavaScript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+</head>
+<body>
+  <div class="timer">
+    <div class="time">00:00</div>
+    <div class="btns">
+      <button>UP</button>
+      <button>DOWN</button>
+    </div>
+  </div>
+</body>
+</html>
