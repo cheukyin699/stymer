@@ -6,7 +6,7 @@ body {
     min-height: 24em;
 
     font-size: 30px;
-    font-family: Helvetica sans-serif;
+    font-family: 'Lato', Helvetica, sans-serif;
 }
 
 .timer {
@@ -17,7 +17,7 @@ body {
 }
 
 .time {
-    font-size: 2em;
+    font-size: 4em;
 }
 
 .btns {
@@ -27,9 +27,25 @@ body {
     text-align: center;
 }
 
+.btns .up {
+    background: #eeeeee;
+}
+
+.btns .down {
+    background: #cccccc;
+}
+
+.btns .up:hover {
+    background: #dddddd;
+}
+
+.btns .down:hover {
+    background: #bbbbbb;
+}
+
 button {
     flex-grow: 1;
     border: none;
-    background: aliceblue;
     padding: 1em;
 }
+
