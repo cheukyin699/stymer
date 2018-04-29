@@ -29,9 +29,3 @@ function fbStatusChange(resp) {
         updateTimerValues(userID);
     }
 }
-
-$(function() {
-    //FB.getLoginStatus(function(resp) {
-    //    fbStatusChange(resp);
-    //});
-});
