@@ -17,19 +17,39 @@ function secsToDate(s) {
 
 function updateTimerValues(userID) {
     // Link with firebase
-    let user = fDB.database().ref('users/' + userID);
+    let user = fDB.ref(userID);
     user.on('value', function(snap) {
-        $('.time').text(secsToDate(snap));
+        if (snap.seconds) {
+            $('.time').text(secsToDate(snap));
+        }
     });
 }
 
 function fbStatusChange(resp) {
-    if (resp === 'connected') {
-        // User is connected to facebook
+    if (resp.status === 'connected') {
+        // User is connected to app via facebook
         // Check to see if user has a synced timer and change values accordingly
         let userID = resp['authResponse']['userID'];
         updateTimerValues(userID);
 
-        // TODO Update all other buttons
+        // Update the other buttons
+        $('#fblogin').text('Logout');
+    } else {
+        // User is not connected to app
+        // Update the other buttons
+        $('#fblogin').text('Facebook');
     }
 }
+
+$(function() {
+    $('#fblogin')
+        .on('click', function() {
+            if ($(this).text() === 'Facebook') {
+                // Login with facebook
+                FB.login(fbStatusChange, {scope: 'public_profile,email'});
+            } else {
+                // Logout of facebook
+                FB.logout(fbStatusChange);
+            }
+        });
+});

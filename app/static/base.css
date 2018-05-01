@@ -42,8 +42,7 @@ body {
     margin: 0 1em;
 }
 
-.btns button,
-.sync-methods button {
+button {
     flex-grow: 1;
     border: none;
     padding: 1em;
@@ -55,8 +54,23 @@ body {
     font-size: 1em;
 }
 
-.btns button:hover,
-.sync-methods button:hover {
+/* For disabled (work in progress things) */
+button:disabled {
+    background: #cccccc !important;
+    color: #888888 !important;
+}
+
+button:enabled:hover {
     background: #cccccc;
     color: #444444;
+}
+
+#fblogin {
+    background: #4267b2;
+    color: white;
+}
+
+#fblogin:hover {
+    background: #3a61aa;
+    color: #dddddd;
 }
