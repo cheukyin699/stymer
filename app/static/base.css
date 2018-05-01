@@ -3,10 +3,12 @@ body {
     flex-direction: column;
     justify-content: center;
 
-    min-height: 24em;
+    min-height: 40em;
 
-    font-size: 30px;
+    font-size: 13px;
     font-family: 'Lato', Helvetica, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .timer {
@@ -17,7 +19,7 @@ body {
 }
 
 .time {
-    font-size: 4em;
+    font-size: 16em;
 }
 
 .btns {
@@ -25,27 +27,36 @@ body {
     flex-direction: row;
     justify-content: center;
     text-align: center;
+    margin: 1em 0;
 }
 
-.btns .up {
-    background: #eeeeee;
+.sync-methods {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-.btns .down {
-    background: #cccccc;
+.sync-methods > * {
+    margin: 0 1em;
 }
 
-.btns .up:hover {
-    background: #dddddd;
-}
-
-.btns .down:hover {
-    background: #bbbbbb;
-}
-
-button {
+.btns button,
+.sync-methods button {
     flex-grow: 1;
     border: none;
     padding: 1em;
+    margin: 0 2px;
+
+    background: #dddddd;
+    color: #333333;
+
+    font-size: 1em;
 }
 
+.btns button:hover,
+.sync-methods button:hover {
+    background: #cccccc;
+    color: #444444;
+}

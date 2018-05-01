@@ -25,7 +25,11 @@ function updateTimerValues(userID) {
 
 function fbStatusChange(resp) {
     if (resp === 'connected') {
+        // User is connected to facebook
+        // Check to see if user has a synced timer and change values accordingly
         let userID = resp['authResponse']['userID'];
         updateTimerValues(userID);
+
+        // TODO Update all other buttons
     }
 }

@@ -1,0 +1,59 @@
+<head>
+  <meta charset="UTF-8">
+  <title>Stymer</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> 
+
+  {% assets "base_css" %}
+  <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css" />
+  {% endassets %}
+
+  <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB4bSmMVycec_35pi98syy9vQkjvePUo8M",
+      authDomain: "stymer-ea133.firebaseapp.com",
+      databaseURL: "https://stymer-ea133.firebaseio.com",
+      projectId: "stymer-ea133",
+      storageBucket: "stymer-ea133.appspot.com",
+      messagingSenderId: "567827944578"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '2055093854774156',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v2.8'
+      });
+        
+      FB.AppEvents.logPageView();   
+
+      FB.getLoginStatus(function(resp) {
+          fbStatusChange(resp);
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase-database.js"></script>
+  <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+
+  {% assets "base_js" %}
+  <script type="text/JavaScript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
+</head>
