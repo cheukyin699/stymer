@@ -8,6 +8,10 @@ var config = {
 firebase.initializeApp(config);
 
 var fDB = firebase.database();
+var countUp = true;
+var originalTime = new Date().getTime();
+var timeUsed = 0;
+var counting = false;
 
 function secsToDate(s) {
     let d = new Date(null);
@@ -19,8 +23,12 @@ function updateTimerValues(userID) {
     // Link with firebase
     let user = fDB.ref(userID);
     user.on('value', function(snap) {
+        // Set the variables
         if (snap.seconds) {
             $('.time').text(secsToDate(snap));
+        }
+        if (snap.countUp) {
+            countUp = snap.countUp;
         }
     });
 }
@@ -42,14 +50,37 @@ function fbStatusChange(resp) {
 }
 
 $(function() {
-    $('#fblogin')
-        .on('click', function() {
-            if ($(this).text() === 'Facebook') {
-                // Login with facebook
-                FB.login(fbStatusChange, {scope: 'public_profile,email'});
-            } else {
-                // Logout of facebook
-                FB.logout(fbStatusChange);
-            }
-        });
+    let timerId = null;
+
+    $('#fblogin').on('click', function() {
+        if ($(this).text() === 'Facebook') {
+            // Login with facebook
+            FB.login(fbStatusChange, {scope: 'public_profile'});
+        } else {
+            // Logout of facebook
+            FB.logout(fbStatusChange);
+        }
+    });
+
+    $('#start').on('click', function() {
+        counting = $(this).text() === 'Start';
+        $(this).text(counting ? 'Stop' : 'Start');
+
+        if (counting) {
+            originalTime = new Date().getTime();
+
+            timerId = setInterval(function() {
+                // Deal exclusively with seconds, but because we might expand,
+                // we would store it in the database as milliseconds.
+                let currentTime = new Date().getTime();
+                let timeDelta = currentTime - originalTime + timeUsed;
+                let timeString = secsToDate(timeDelta / 1000);
+
+                $('.time').text(timeString);
+            }, 1000);
+        } else {
+            clearInterval(timerId);
+            timeUsed += new Date().getTime() - originalTime;
+        }
+    });
 });
