@@ -20,6 +20,11 @@ body {
 
 .time {
     font-size: 16em;
+    color: #555555;
+}
+
+.playing {
+    color: #111111;
 }
 
 .btns {
@@ -42,7 +47,7 @@ body {
     margin: 0 1em;
 }
 
-button {
+.btns > button {
     flex-grow: 1;
     border: none;
     padding: 1em;
@@ -55,12 +60,12 @@ button {
 }
 
 /* For disabled (work in progress things) */
-button:disabled {
+.btns > button:disabled {
     background: #cccccc !important;
     color: #888888 !important;
 }
 
-button:enabled:hover {
+.btns > button:enabled:hover {
     background: #cccccc;
     color: #444444;
 }

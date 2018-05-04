@@ -13,7 +13,7 @@ def generate_assets():
     '''
     assets = Environment(app)
     base_css = Bundle('base.css', filters='cssutils', output='gen/base.css')
-    base_js = Bundle('base.js', filters='jsmin', output='gen/base.js')
+    base_js = Bundle('base.js', 'auth.js', filters='jsmin', output='gen/base.js')
 
     assets.auto_build = True
 
