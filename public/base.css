@@ -35,7 +35,7 @@ body {
     margin: 1em 0;
 }
 
-.sync-methods {
+.firebaseui-auth-container {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -70,12 +70,16 @@ body {
     color: #444444;
 }
 
-#fblogin {
+#logout {
     background: #4267b2;
     color: white;
+    border: none;
+    padding: 1em;
+    margin: auto;
+    width: 50%;
 }
 
-#fblogin:hover {
+#logout:hover {
     background: #3a61aa;
     color: #dddddd;
 }

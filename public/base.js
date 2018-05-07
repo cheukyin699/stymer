@@ -5,17 +5,6 @@ var timeUsed = 0;
 var counting = false;
 var myID = null;
 
-String.prototype.hashCode = function() {
-    var hash = 0, i, chr;
-    if (this.length === 0) return hash;
-    for (i = 0; i < this.length; i++) {
-        chr   = this.charCodeAt(i);
-        hash  = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-};
-
 function secsToDate(s) {
     let d = new Date(null);
     d.setSeconds(s);
@@ -25,13 +14,12 @@ function secsToDate(s) {
 function updateTimerValues() {
     // Link with firebase
     let user = fDB.ref(myID);
-    user.on('value', function(snap) {
+    user.once('value').then(function(snap) {
         // Set the variables
-        if (snap.seconds) {
-            $('.time').text(secsToDate(snap));
-        }
-        if (snap.countUp) {
-            countUp = snap.countUp;
+        if (snap.val()) {
+            timeUsed = snap.val().seconds;
+            countUp = snap.val().countUp;
+            $('.time').text(secsToDate(timeUsed / 1000));
         }
     });
 }
@@ -42,23 +30,6 @@ function updateDB(value) {
             seconds: value,
             countUp: countUp
         });
-    }
-}
-
-function fbStatusChange(resp) {
-    if (resp.status === 'connected') {
-        // User is connected to app via facebook
-        // Check to see if user has a synced timer and change values accordingly
-        let userID = resp['authResponse']['userID'];
-        myID = ('FB:' + userID).hashCode.toString();
-        updateTimerValues();
-
-        // Update the other buttons
-        $('#fblogin').text('Logout');
-    } else {
-        // User is not connected to app
-        // Update the other buttons
-        $('#fblogin').text('Facebook');
     }
 }
 
@@ -118,14 +89,23 @@ $(function() {
         originalTime = new Date().getTime();
         timeUsed = 0;
         $('.time').text(secsToDate(0));
+        updateDB(0);
     });
 
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             // User just signed in
             myID = user.uid;
+            updateTimerValues();
+
+            // Add logout button
+            $('#firebaseui-auth-container').hide();
+            $('#logout').show();
         } else {
             // User just signed out
+            // Add logout button
+            $('#firebaseui-auth-container').show();
+            $('#logout').hide();
         }
     });
 });
