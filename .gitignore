@@ -3,3 +3,5 @@ venv/
 app/__pycache__/
 app/static/gen/
 app/static/.webassets-cache/
+
+firebase-debug.log
