@@ -145,6 +145,7 @@ $(function() {
 
         // Make sure the timer looks nice
         $('.time').addClass('playing');
+        $('.time').css('margin', 'auto');
     }
     $('.sellout').hide();
     $('#logout').hide();
