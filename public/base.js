@@ -4,6 +4,24 @@ var originalTime = new Date().getTime();
 var timeUsed = 0;
 var counting = false;
 var myID = null;
+var isViewing = false;
+
+function getUrlParam(param) {
+    let sPageUrl = decodeURIComponent(window.location.search.substring(1)),
+        sUrlVars = sPageUrl.split('&'),
+        sParam,
+        i;
+
+    for (i = 0; i < sUrlVars.length; i++) {
+        sParam = sUrlVars[i].split('=');
+
+        if (sParam[0] === param) {
+            return sParam[1] === undefined ? true : sParam[1];
+        }
+    }
+
+    return false;
+}
 
 function secsToDate(s) {
     let d = new Date(null);
@@ -24,12 +42,31 @@ function updateTimerValues() {
     });
 }
 
+function linkTimerValues() {
+    // Hard link with firebase
+    let user = fDB.ref(myID);
+    user.on('value', function(snap) {
+        if (snap.val()) {
+            $('.time').text(secsToDate(snap.val().seconds / 1000));
+        }
+    });
+}
+
 function updateDB(value) {
     if (myID) {
         fDB.ref(myID).set({
             seconds: value,
             countUp: countUp
         });
+    }
+}
+
+function makeSelloutUrl() {
+    if (myID) {
+        let getUrl = window.location;
+        return getUrl.protocol + "//" + getUrl.host + "/?view=" + myID;
+    } else {
+        return false;
     }
 }
 
@@ -92,20 +129,53 @@ $(function() {
         updateDB(0);
     });
 
+    // Check if user is viewing it
+    let checkID = getUrlParam('view');
+    if (checkID && checkID !== true) {
+        myID = checkID;
+        isViewing = true;
+
+        // Make values update in real time
+        linkTimerValues();
+
+        // This completely removes all other buttons
+        $('.btns').html('Now viewing: ' + myID);
+        $('#firebaseui-auth-container').hide();
+        $('#logout').hide();
+
+        // Make sure the timer looks nice
+        $('.time').addClass('playing');
+    }
+    $('.sellout').hide();
+    $('#logout').hide();
+
+    $('#sellouturl').on('click', function() {
+        $(this).select();
+    });
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             // User just signed in
-            myID = user.uid;
+            // If ID is already filled in, don't do anything
+            if (!myID) {
+                myID = user.uid;
+            }
             updateTimerValues();
 
-            // Add logout button
+            // Add logout button and all the other things
             $('#firebaseui-auth-container').hide();
             $('#logout').show();
+            $('.sellout').show();
+            $('#sellouturl').val(makeSelloutUrl());
         } else {
             // User just signed out
-            // Add logout button
+            myID = null;
+
+            // Add authentication button and all the other things
             $('#firebaseui-auth-container').show();
             $('#logout').hide();
+            $('.sellout').hide();
+            $('#sellouturl').val('');
         }
     });
 });
