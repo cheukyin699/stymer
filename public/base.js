@@ -154,6 +154,11 @@ $(function() {
     });
 
     firebase.auth().onAuthStateChanged(function(user) {
+        // Insanity checking
+        if (isViewing) {
+            return;
+        }
+
         if (user) {
             // User just signed in
             // If ID is already filled in, don't do anything
